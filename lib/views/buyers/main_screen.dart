@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/accout_screen.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/cart_screen.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/category_screen.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/home_screen.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/search_screen.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/store_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -12,10 +18,27 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    int _pageIndex = 0;
+
+    List<Widget> _pages = [
+      HomeScreen(),
+      CategoryScreen(),
+      StoreScreen(),
+      CartScreen(),
+      SearchScreen(),
+      AccountScreen(),
+    ];
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.black,
           selectedItemColor: Colors.yellow.shade900,
+          currentIndex: _pageIndex,
+          onTap: (value) {
+            setState(() {
+              _pageIndex = value;
+            });
+          },
           items: [
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
@@ -48,6 +71,7 @@ class _MainScreenState extends State<MainScreen> {
               label: 'ACCOUNT',
             ),
           ]),
+      body: _pages[_pageIndex],
     );
   }
 }
