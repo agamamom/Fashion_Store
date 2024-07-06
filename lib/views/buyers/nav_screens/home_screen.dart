@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/search_input_widget.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/welcome_text_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,16 +11,13 @@ class HomeScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top, left: 25, right: 15),
-      child: Row(
-        children: [
-          const Text(
-            'Howdy, What Are You\n Looking For 👀',
-            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+      child: Column(
+        children: const [
+          WelcomeText(),
+          SizedBox(
+            height: 14,
           ),
-          Container(
-            child: SvgPicture.asset('assets/icons/cart.svg'),
-            width: 20,
-          ),
+          SeachInputWidget()
         ],
       ),
     );
