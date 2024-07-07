@@ -1,7 +1,21 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_fashion_store/views/buyers/main_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Platform.isAndroid
+      ? await Firebase.initializeApp(
+          options: const FirebaseOptions(
+            apiKey: 'AIzaSyD_GR-k20S3AuX6MN0ODAo1JR8lD61Lu7o',
+            appId: '1:742721761456:android:dad5c2b23a20aa4da6cb75',
+            messagingSenderId: '742721761456',
+            projectId: 'fashion-store-bffd4',
+          ),
+        )
+      : await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
