@@ -9,11 +9,11 @@ void main() async {
   Platform.isAndroid
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
-            apiKey: 'AIzaSyD_GR-k20S3AuX6MN0ODAo1JR8lD61Lu7o',
-            appId: '1:742721761456:android:dad5c2b23a20aa4da6cb75',
-            messagingSenderId: '742721761456',
-            projectId: 'fashion-store-bffd4',
-          ),
+              apiKey: 'AIzaSyD_GR-k20S3AuX6MN0ODAo1JR8lD61Lu7o',
+              appId: '1:742721761456:android:dad5c2b23a20aa4da6cb75',
+              messagingSenderId: '742721761456',
+              projectId: 'fashion-store-bffd4',
+              storageBucket: 'gs://fashion-store-bffd4.appspot.com'),
         )
       : await Firebase.initializeApp();
   runApp(const MyApp());
