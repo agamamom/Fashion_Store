@@ -18,29 +18,29 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    int _pageIndex = 0;
+    int pageIndex = 0;
 
-    List<Widget> _pages = [
-      HomeScreen(),
-      CategoryScreen(),
-      StoreScreen(),
-      CartScreen(),
-      SearchScreen(),
-      AccountScreen(),
+    List<Widget> pages = [
+      const HomeScreen(),
+      const CategoryScreen(),
+      const StoreScreen(),
+      const CartScreen(),
+      const SearchScreen(),
+      const AccountScreen(),
     ];
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.black,
           selectedItemColor: Colors.yellow.shade900,
-          currentIndex: _pageIndex,
+          currentIndex: pageIndex,
           onTap: (value) {
             setState(() {
-              _pageIndex = value;
+              pageIndex = value;
             });
           },
           items: [
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
               label: 'HƠME',
             ),
@@ -71,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
               label: 'ACCOUNT',
             ),
           ]),
-      body: _pages[_pageIndex],
+      body: pages[pageIndex],
     );
   }
 }

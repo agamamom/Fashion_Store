@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/banner_widget.dart';
 import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/category_text.dart';
 import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/search_input_widget.dart';
@@ -13,12 +12,12 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        WelcomeText(),
-        SizedBox(
+        const WelcomeText(),
+        const SizedBox(
           height: 14,
         ),
-        SeachInputWidget(),
-        BannerWidget(),
+        const SeachInputWidget(),
+        const BannerWidget(),
         CategoryText(),
       ],
     );

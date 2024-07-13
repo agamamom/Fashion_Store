@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class BannerWidget extends StatefulWidget {
+  const BannerWidget({Key? key}) : super(key: key);
   @override
   State<BannerWidget> createState() => _BannerWidgetState();
 }
@@ -14,11 +15,11 @@ class _BannerWidgetState extends State<BannerWidget> {
         .collection('banners')
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         setState(() {
           _bannerImage.add(doc['image']);
         });
-      });
+      }
     });
   }
 

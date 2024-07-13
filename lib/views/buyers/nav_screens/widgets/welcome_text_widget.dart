@@ -18,9 +18,9 @@ class WelcomeText extends StatelessWidget {
             'Howdy, What Are You\n Looking For 👀',
             style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
-          Container(
-            child: SvgPicture.asset('assets/icons/cart.svg'),
+          SizedBox(
             width: 20,
+            child: SvgPicture.asset('assets/icons/cart.svg'),
           ),
         ],
       ),

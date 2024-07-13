@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CategoryText extends StatelessWidget {
   final List<String> _categoryLabel = ['food', 'vegetable', 'egg', 'tea'];
+  CategoryText({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,7 +16,7 @@ class CategoryText extends StatelessWidget {
               fontSize: 19,
             ),
           ),
-          Container(
+          SizedBox(
             height: 40,
             child: Row(
               children: [
@@ -30,7 +31,7 @@ class CategoryText extends StatelessWidget {
                         label: Center(
                           child: Text(
                             _categoryLabel[index],
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -43,7 +44,7 @@ class CategoryText extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
+                  icon: const Icon(Icons.arrow_forward_ios),
                 )
               ],
             ),
