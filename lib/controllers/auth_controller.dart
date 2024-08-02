@@ -12,6 +12,7 @@ class AuthController {
           password.isNotEmpty) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
+        res = 'success';
       } else {
         res = 'Please Fields must not be empty';
       }
