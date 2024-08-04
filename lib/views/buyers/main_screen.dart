@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             const BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
-              label: 'HƠME',
+              label: 'HOME',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
