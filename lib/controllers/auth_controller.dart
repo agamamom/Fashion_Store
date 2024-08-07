@@ -1,14 +1,30 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 
 class AuthController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  _uploadProfileImageToStorage(Uint8List? image) async {
+
+  //Upload Ảnh đã chọn lên firestore
+  Future<String> _uploadProfileImageToStorage(
+      Uint8List? image, String filename) async {
+    if (image == null) {
+      throw Exception("Image is null");
+    }
+
+    // Determine the MIME type based on the file name
+    String? mimeType = lookupMimeType(filename);
+    if (mimeType == null) {
+      throw Exception("Could not determine MIME type");
+    }
+
     Reference ref =
         _storage.ref().child('profilePics').child(_auth.currentUser!.uid);
 
@@ -19,28 +35,37 @@ class AuthController {
     return downloadUrl;
   }
 
-  pickProfileImage(ImageSource source) async {
+  //Chọn ảnh đại diện khi đăng ký tài khoản
+  Future<Map<String, dynamic>> pickProfileImage(ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();
 
     XFile? _file = await _imagePicker.pickImage(source: source);
 
-    if (_file != null) {
-      return await _file.readAsBytes();
-    } else {
-      print('No Image Selected');
+    if (_file == null) {
+      throw Exception("No image selected");
     }
+
+    // return await _file.readAsBytes();
+    Uint8List imageData = await _file.readAsBytes();
+    String filePath = _file.path;
+
+    return {'data': imageData, 'path': filePath};
   }
 
   Future<String> signUpUsers(String email, String fullName, String phoneNumber,
-      String password) async {
+      String password, Uint8List? image, String fileName) async {
     String res = 'Some error occured';
     try {
       if (email.isNotEmpty &&
           fullName.isNotEmpty &&
           phoneNumber.isNotEmpty &&
-          password.isNotEmpty) {
+          password.isNotEmpty &&
+          image != null) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
+
+        String profileImageUrl =
+            await _uploadProfileImageToStorage(image, fileName);
 
         await _firestore.collection('buyers').doc(cred.user!.uid).set({
           'email': email,
@@ -48,6 +73,7 @@ class AuthController {
           'phoneNumber': phoneNumber,
           'buyerId': cred.user!.uid,
           'address': '',
+          'profileImage': profileImageUrl
         });
         res = 'success';
       } else {

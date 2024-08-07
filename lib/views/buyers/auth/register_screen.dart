@@ -25,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late String phoneNumber;
   late String password;
   Uint8List? _image;
+  String? _imageFileName;
   bool _isLoading = false;
 
   _signUpUser() async {
@@ -33,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     if (_formKey.currentState!.validate()) {
       await _authController
-          .signUpUsers(email, fullname, phoneNumber, password)
+          .signUpUsers(email, fullname, phoneNumber, password, _image)
           .whenComplete(
         () {
           setState(() {
