@@ -34,7 +34,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     if (_formKey.currentState!.validate()) {
       await _authController
-          .signUpUsers(email, fullname, phoneNumber, password, _image)
+          .signUpUsers(
+              email, fullname, phoneNumber, password, _image, _imageFileName!)
           .whenComplete(
         () {
           setState(() {
@@ -54,19 +55,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   selectGalleryImage() async {
-    Uint8List im = await _authController.pickProfileImage(ImageSource.gallery);
+    try {
+      Map<String, dynamic> imageInfo =
+          await _authController.pickProfileImage(ImageSource.gallery);
 
-    setState(() {
-      _image = im;
-    });
+      Uint8List im = imageInfo['data'];
+      String filePath = imageInfo['path'];
+      String fileName = filePath.split('/').last;
+
+      setState(() {
+        _image = im;
+        _imageFileName = fileName;
+      });
+    } catch (e) {
+      print(e);
+      // Handle the error, e.g., show a snackbar or alert
+    }
   }
 
   selectCameraImage() async {
-    Uint8List im = await _authController.pickProfileImage(ImageSource.camera);
+    try {
+      Map<String, dynamic> imageInfo =
+          await _authController.pickProfileImage(ImageSource.camera);
 
-    setState(() {
-      _image = im;
-    });
+      Uint8List im = imageInfo['data'];
+      String filePath = imageInfo['path'];
+      String fileName = filePath.split('/').last;
+
+      setState(() {
+        _image = im;
+        _imageFileName = fileName;
+      });
+    } catch (e) {
+      print(e);
+      // Handle the error, e.g., show a snackbar or alert
+    }
   }
 
   @override

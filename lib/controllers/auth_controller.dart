@@ -28,7 +28,11 @@ class AuthController {
     Reference ref =
         _storage.ref().child('profilePics').child(_auth.currentUser!.uid);
 
-    UploadTask uploadTask = ref.putData(image!);
+    // Set metadata to specify the content type
+    SettableMetadata metadata = SettableMetadata(contentType: mimeType);
+
+    // Start the upload task with the specified metadata
+    UploadTask uploadTask = ref.putData(image, metadata);
 
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
@@ -37,17 +41,17 @@ class AuthController {
 
   //Chọn ảnh đại diện khi đăng ký tài khoản
   Future<Map<String, dynamic>> pickProfileImage(ImageSource source) async {
-    final ImagePicker _imagePicker = ImagePicker();
+    final ImagePicker imagePicker = ImagePicker();
 
-    XFile? _file = await _imagePicker.pickImage(source: source);
+    XFile? file = await imagePicker.pickImage(source: source);
 
-    if (_file == null) {
+    if (file == null) {
       throw Exception("No image selected");
     }
 
     // return await _file.readAsBytes();
-    Uint8List imageData = await _file.readAsBytes();
-    String filePath = _file.path;
+    Uint8List imageData = await file.readAsBytes();
+    String filePath = file.path;
 
     return {'data': imageData, 'path': filePath};
   }
