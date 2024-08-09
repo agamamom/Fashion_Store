@@ -14,9 +14,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthController _authController = AuthController();
   late String email;
+  bool _isLoading = false;
 
   late String password;
   _loginUsers() async {
+    setState(() {
+      _isLoading = true;
+    });
     if (_formKey.currentState!.validate()) {
       String res = await _authController.loginUsers(email, password);
       if (!mounted) return; // Check if the widget is still mounted
@@ -33,6 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
         return showSnack(context, res);
       }
     } else {
+      setState(() {
+        _isLoading = false;
+      });
       return showSnack(context, 'Please fields must not be empty');
     }
   }
@@ -101,11 +108,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.yellow.shade900,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(letterSpacing: 5, color: Colors.white),
-                    ),
+                  child: Center(
+                    child: _isLoading
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
+                            'Login',
+                            style: TextStyle(
+                                letterSpacing: 5, color: Colors.white),
+                          ),
                   ),
                 ),
               ),
