@@ -7,16 +7,16 @@ import 'package:multi_fashion_store/controllers/auth_controller.dart';
 import 'package:multi_fashion_store/utils/show_snackBar.dart';
 import 'package:multi_fashion_store/views/buyers/auth/login_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({
+class BuyerRegisterScreen extends StatefulWidget {
+  const BuyerRegisterScreen({
     super.key,
   });
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<BuyerRegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<BuyerRegisterScreen> {
   final AuthController _authController = AuthController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
