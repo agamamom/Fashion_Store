@@ -29,7 +29,7 @@ class UploadScreen extends StatelessWidget {
             ),
           ]),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             GeneralScreen(),
             ShippingScreen(),
