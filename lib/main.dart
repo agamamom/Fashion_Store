@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_fashion_store/providers/product_provider.dart';
+import 'package:multi_fashion_store/vendor/views/screens/main_vendor_screen.dart';
+import 'package:multi_fashion_store/views/buyers/auth/login_screen.dart';
 import 'package:multi_fashion_store/views/buyers/auth/register_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +20,18 @@ void main() async {
               storageBucket: 'gs://fashion-store-bffd4.appspot.com'),
         )
       : await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) {
+            return ProductProvider();
+          },
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +47,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Brand-Bold',
       ),
-      home: const BuyerRegisterScreen(),
+      home: const MainVendorScreen(),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_fashion_store/providers/product_provider.dart';
+import 'package:provider/provider.dart';
 
 class GeneralScreen extends StatefulWidget {
   GeneralScreen({super.key});
@@ -34,6 +36,8 @@ class _GeneralScreenState extends State<GeneralScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ProductProvider _productProvider =
+        Provider.of<ProductProvider>(context);
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -41,6 +45,9 @@ class _GeneralScreenState extends State<GeneralScreen> {
         child: Column(
           children: [
             TextFormField(
+              onChanged: (value) {
+                _productProvider.getFormData(productName: value);
+              },
               decoration:
                   const InputDecoration(labelText: 'Enter Product Name'),
             ),
