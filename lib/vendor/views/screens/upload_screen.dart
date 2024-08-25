@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:multi_fashion_store/providers/product_provider.dart';
 import 'package:multi_fashion_store/vendor/views/screens/upload_tap_screens/attributes_tab_screen.dart';
 import 'package:multi_fashion_store/vendor/views/screens/upload_tap_screens/general_screen.dart';
 import 'package:multi_fashion_store/vendor/views/screens/upload_tap_screens/images_tab_screen.dart';
 import 'package:multi_fashion_store/vendor/views/screens/upload_tap_screens/shipping_screen.dart';
+import 'package:provider/provider.dart';
 
 class UploadScreen extends StatelessWidget {
   const UploadScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProductProvider _productProvider =
+        Provider.of<ProductProvider>(context);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -40,7 +44,9 @@ class UploadScreen extends StatelessWidget {
         bottomSheet: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              _productProvider.productData['productName'];
+            },
             child: const Text('Save'),
           ),
         ),
