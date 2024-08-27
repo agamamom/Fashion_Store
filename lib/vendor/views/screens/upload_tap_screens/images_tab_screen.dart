@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_fashion_store/providers/product_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ImagesTabScreen extends StatefulWidget {
   ImagesTabScreen({super.key});
@@ -74,9 +76,12 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
           ),
           TextButton(
             onPressed: () async {
+              EasyLoading.show(status: 'Saving Images');
               for (var img in _image) {
-                Reference ref =
-                    _storage.ref().child('productImage').child('sadasd');
+                Reference ref = _storage
+                    .ref()
+                    .child('productImage')
+                    .child(const Uuid().v4());
 
                 await ref.putFile(img).whenComplete(
                   () async {
@@ -86,6 +91,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
                           _imageUrlList.add(value);
                           _productProvider.getFormData(
                               imageUrlList: _imageUrlList);
+                          EasyLoading.dismiss();
                         });
                       },
                     );
