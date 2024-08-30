@@ -19,7 +19,7 @@ class _MainVendorScreenState extends State<MainVendorScreen> {
     int _pageIndex = 0;
 
     List<Widget> _pages = [
-      const UploadScreen(),
+      UploadScreen(),
       const EarningsScreen(),
       const EditProductScreen(),
       const VendorOrderScreen(),

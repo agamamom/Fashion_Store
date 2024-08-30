@@ -15,6 +15,8 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
 
   List<String> _sizeList = [];
 
+  bool _isSave = false;
+
   @override
   Widget build(BuildContext context) {
     final ProductProvider _productProvider =
@@ -24,6 +26,13 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
       child: Column(
         children: [
           TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Enter Brand';
+              } else {
+                return null;
+              }
+            },
             onChanged: (value) {
               _productProvider.getFormData(brandName: value);
             },
@@ -41,6 +50,13 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
                 child: Container(
                   width: 100,
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter Size';
+                      } else {
+                        return null;
+                      }
+                    },
                     controller: _sizeController,
                     onChanged: (value) {
                       setState(() {
@@ -79,18 +95,26 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.yellow.shade800,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            _sizeList[index],
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _sizeList.removeAt(index);
+                            _productProvider.getFormData(sizeList: _sizeList);
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.yellow.shade800,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              _sizeList[index],
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
@@ -103,8 +127,15 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
             ElevatedButton(
               onPressed: () {
                 _productProvider.getFormData(sizeList: _sizeList);
+                setState(() {
+                  _isSave = true;
+                });
               },
-              child: const Text('Save'),
+              child: Text(
+                _isSave ? 'Saved' : 'Save',
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, letterSpacing: 3),
+              ),
             )
         ],
       ),

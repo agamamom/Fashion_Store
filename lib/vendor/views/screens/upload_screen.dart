@@ -7,49 +7,54 @@ import 'package:multi_fashion_store/vendor/views/screens/upload_tap_screens/ship
 import 'package:provider/provider.dart';
 
 class UploadScreen extends StatelessWidget {
-  const UploadScreen({super.key});
-
+  UploadScreen({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return DefaultTabController(
       length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.yellow.shade900,
-          bottom: const TabBar(tabs: [
-            Tab(
-              child: Text('General'),
+      child: Form(
+        key: _formKey,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.yellow.shade900,
+            bottom: const TabBar(tabs: [
+              Tab(
+                child: Text('General'),
+              ),
+              Tab(
+                child: Text('Shipping'),
+              ),
+              Tab(
+                child: Text('Attributes'),
+              ),
+              Tab(
+                child: Text('Images'),
+              ),
+            ]),
+          ),
+          body: TabBarView(
+            children: [
+              GeneralScreen(),
+              ShippingScreen(),
+              AttributesTabScreen(),
+              ImagesTabScreen()
+            ],
+          ),
+          bottomSheet: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellow.shade900),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  print(_productProvider.productData['productName']);
+                }
+              },
+              child: const Text('Save'),
             ),
-            Tab(
-              child: Text('Shipping'),
-            ),
-            Tab(
-              child: Text('Attributes'),
-            ),
-            Tab(
-              child: Text('Images'),
-            ),
-          ]),
-        ),
-        body: TabBarView(
-          children: [
-            GeneralScreen(),
-            ShippingScreen(),
-            AttributesTabScreen(),
-            ImagesTabScreen()
-          ],
-        ),
-        bottomSheet: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow.shade900),
-            onPressed: () {
-              _productProvider.productData['productName'];
-            },
-            child: const Text('Save'),
           ),
         ),
       ),

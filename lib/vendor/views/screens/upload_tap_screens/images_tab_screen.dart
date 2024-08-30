@@ -99,7 +99,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
                 );
               }
             },
-            child: const Text('Upload'),
+            child: _image.isNotEmpty ? const Text('Upload') : const Text(''),
           )
         ],
       ),
