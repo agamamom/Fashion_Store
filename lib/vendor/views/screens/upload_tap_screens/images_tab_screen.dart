@@ -9,19 +9,22 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ImagesTabScreen extends StatefulWidget {
-  ImagesTabScreen({super.key});
+  const ImagesTabScreen({super.key});
 
   @override
   State<ImagesTabScreen> createState() => _ImagesTabScreenState();
 }
 
-class _ImagesTabScreenState extends State<ImagesTabScreen> {
+class _ImagesTabScreenState extends State<ImagesTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final ImagePicker picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  List<File> _image = [];
+  List<File> image = [];
 
-  List<String> _imageUrlList = [];
+  List<String> imageUrlList = [];
 
   Future chooseImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -30,7 +33,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
       print('no image picked');
     } else {
       setState(() {
-        _image.add(
+        image.add(
           File(pickedFile.path),
         );
       });
@@ -39,7 +42,8 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductProvider _productProvider =
+    super.build(context);
+    final ProductProvider productProvider =
         Provider.of<ProductProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -47,7 +51,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
         children: [
           GridView.builder(
             shrinkWrap: true,
-            itemCount: _image.length + 1,
+            itemCount: image.length + 1,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, mainAxisSpacing: 8, childAspectRatio: 3),
             itemBuilder: (context, index) {
@@ -64,7 +68,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: FileImage(
-                            _image[index - 1],
+                            image[index - 1],
                           ),
                         ),
                       ),
@@ -77,7 +81,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
           TextButton(
             onPressed: () async {
               EasyLoading.show(status: 'Saving Images');
-              for (var img in _image) {
+              for (var img in image) {
                 Reference ref = _storage
                     .ref()
                     .child('productImage')
@@ -88,18 +92,19 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
                     await ref.getDownloadURL().then(
                       (value) {
                         setState(() {
-                          _imageUrlList.add(value);
-                          _productProvider.getFormData(
-                              imageUrlList: _imageUrlList);
-                          EasyLoading.dismiss();
+                          imageUrlList.add(value);
                         });
                       },
                     );
                   },
                 );
               }
+              setState(() {
+                productProvider.getFormData(imageUrlList: imageUrlList);
+                EasyLoading.dismiss();
+              });
             },
-            child: _image.isNotEmpty ? const Text('Upload') : const Text(''),
+            child: image.isNotEmpty ? const Text('Upload') : const Text(''),
           )
         ],
       ),

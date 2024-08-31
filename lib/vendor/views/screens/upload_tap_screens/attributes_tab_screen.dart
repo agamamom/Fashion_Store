@@ -9,17 +9,21 @@ class AttributesTabScreen extends StatefulWidget {
   State<AttributesTabScreen> createState() => _AttributesTabScreenState();
 }
 
-class _AttributesTabScreenState extends State<AttributesTabScreen> {
+class _AttributesTabScreenState extends State<AttributesTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   bool _entered = false;
   final TextEditingController _sizeController = TextEditingController();
 
-  List<String> _sizeList = [];
+  final List<String> _sizeList = [];
 
   bool _isSave = false;
 
   @override
   Widget build(BuildContext context) {
-    final ProductProvider _productProvider =
+    super.build(context);
+    final ProductProvider productProvider =
         Provider.of<ProductProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -34,7 +38,7 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
               }
             },
             onChanged: (value) {
-              _productProvider.getFormData(brandName: value);
+              productProvider.getFormData(brandName: value);
             },
             decoration: const InputDecoration(
               labelText: 'Brand',
@@ -47,16 +51,9 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Flexible(
-                child: Container(
+                child: SizedBox(
                   width: 100,
                   child: TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Enter Size';
-                      } else {
-                        return null;
-                      }
-                    },
                     controller: _sizeController,
                     onChanged: (value) {
                       setState(() {
@@ -87,7 +84,7 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
           if (_sizeList.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 height: 50,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -99,7 +96,7 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
                         onTap: () {
                           setState(() {
                             _sizeList.removeAt(index);
-                            _productProvider.getFormData(sizeList: _sizeList);
+                            productProvider.getFormData(sizeList: _sizeList);
                           });
                         },
                         child: Container(
@@ -126,7 +123,7 @@ class _AttributesTabScreenState extends State<AttributesTabScreen> {
           if (_sizeList.isNotEmpty)
             ElevatedButton(
               onPressed: () {
-                _productProvider.getFormData(sizeList: _sizeList);
+                productProvider.getFormData(sizeList: _sizeList);
                 setState(() {
                   _isSave = true;
                 });

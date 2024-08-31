@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:multi_fashion_store/providers/product_provider.dart';
 import 'package:multi_fashion_store/vendor/views/screens/main_vendor_screen.dart';
-import 'package:multi_fashion_store/views/buyers/auth/login_screen.dart';
-import 'package:multi_fashion_store/views/buyers/auth/register_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

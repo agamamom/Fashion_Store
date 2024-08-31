@@ -14,23 +14,22 @@ class MainVendorScreen extends StatefulWidget {
 }
 
 class _MainVendorScreenState extends State<MainVendorScreen> {
+  int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    int _pageIndex = 0;
-
-    List<Widget> _pages = [
-      UploadScreen(),
+    List<Widget> pages = [
       const EarningsScreen(),
+      UploadScreen(),
       const EditProductScreen(),
       const VendorOrderScreen(),
       VendorLogoutScreen(),
     ];
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _pageIndex,
+        currentIndex: pageIndex,
         onTap: (value) {
           setState(() {
-            _pageIndex = value;
+            pageIndex = value;
           });
         },
         type: BottomNavigationBarType.fixed,
@@ -46,7 +45,7 @@ class _MainVendorScreenState extends State<MainVendorScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.logout), label: 'LOGOUT'),
         ],
       ),
-      body: _pages[_pageIndex],
+      body: pages[pageIndex],
     );
   }
 }

@@ -5,13 +5,16 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class GeneralScreen extends StatefulWidget {
-  GeneralScreen({super.key});
+  const GeneralScreen({super.key});
 
   @override
   State<GeneralScreen> createState() => _GeneralScreenState();
 }
 
-class _GeneralScreenState extends State<GeneralScreen> {
+class _GeneralScreenState extends State<GeneralScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final List<String> _categoryList = [];
@@ -43,7 +46,8 @@ class _GeneralScreenState extends State<GeneralScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductProvider _productProvider =
+    super.build(context);
+    final ProductProvider productProvider =
         Provider.of<ProductProvider>(context);
     return Scaffold(
         body: Padding(
@@ -60,7 +64,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 }
               },
               onChanged: (value) {
-                _productProvider.getFormData(productName: value);
+                productProvider.getFormData(productName: value);
               },
               decoration:
                   const InputDecoration(labelText: 'Enter Product Name'),
@@ -69,6 +73,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
               height: 20,
             ),
             TextFormField(
+              keyboardType: TextInputType.number,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Enter Product Price';
@@ -77,7 +82,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 }
               },
               onChanged: (value) {
-                _productProvider.getFormData(productPrice: double.parse(value));
+                productProvider.getFormData(productPrice: double.parse(value));
               },
               decoration:
                   const InputDecoration(labelText: 'Enter Product Price'),
@@ -86,6 +91,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
               height: 20,
             ),
             TextFormField(
+              keyboardType: TextInputType.number,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Enter Product Quanity';
@@ -94,7 +100,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 }
               },
               onChanged: (value) {
-                _productProvider.getFormData(quantity: int.parse(value));
+                productProvider.getFormData(quantity: int.parse(value));
               },
               decoration: const InputDecoration(
                 labelText: 'Enter Product Quanity',
@@ -115,7 +121,7 @@ class _GeneralScreenState extends State<GeneralScreen> {
               ).toList(),
               onChanged: (value) {
                 setState(() {
-                  _productProvider.getFormData(category: value);
+                  productProvider.getFormData(category: value);
                 });
               },
             ),
@@ -131,9 +137,9 @@ class _GeneralScreenState extends State<GeneralScreen> {
                 }
               },
               onChanged: (value) {
-                _productProvider.getFormData(description: value);
+                productProvider.getFormData(description: value);
               },
-              maxLines: 10,
+              maxLines: 5,
               maxLength: 800,
               decoration: InputDecoration(
                 labelText: 'Enter Product Description',
@@ -153,16 +159,16 @@ class _GeneralScreenState extends State<GeneralScreen> {
                         .then(
                       (value) {
                         setState(() {
-                          _productProvider.getFormData(scheduleDate: value);
+                          productProvider.getFormData(scheduleDate: value);
                         });
                       },
                     );
                   },
                   child: const Text('Schedule'),
                 ),
-                if (_productProvider.productData['scheduleDate'] != null)
+                if (productProvider.productData['scheduleDate'] != null)
                   Text(
-                    formatedDate(_productProvider.productData['scheduleDate']),
+                    formatedDate(productProvider.productData['scheduleDate']),
                   )
               ],
             )

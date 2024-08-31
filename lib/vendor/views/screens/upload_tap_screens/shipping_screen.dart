@@ -9,11 +9,15 @@ class ShippingScreen extends StatefulWidget {
   State<ShippingScreen> createState() => _ShippingScreenState();
 }
 
-class _ShippingScreenState extends State<ShippingScreen> {
+class _ShippingScreenState extends State<ShippingScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   bool? _chargeShipping = false;
   @override
   Widget build(BuildContext context) {
-    final ProductProvider _productProvider =
+    super.build(context);
+    final ProductProvider productProvider =
         Provider.of<ProductProvider>(context);
     return Column(
       children: [
@@ -27,11 +31,11 @@ class _ShippingScreenState extends State<ShippingScreen> {
           onChanged: (value) {
             setState(() {
               _chargeShipping = value;
-              _productProvider.getFormData(chargeShipping: _chargeShipping);
+              productProvider.getFormData(chargeShipping: _chargeShipping);
             });
           },
         ),
-        if (_chargeShipping == null)
+        if (_chargeShipping!)
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
@@ -43,7 +47,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 }
               },
               onChanged: (value) {
-                _productProvider.getFormData(shippingCharge: int.parse(value));
+                productProvider.getFormData(shippingCharge: int.parse(value));
               },
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
