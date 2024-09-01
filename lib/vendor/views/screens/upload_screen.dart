@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:multi_fashion_store/providers/product_provider.dart';
@@ -84,12 +85,13 @@ class UploadScreen extends StatelessWidget {
                               productProvider.productData['shippingCharge'],
                           'brandName': productProvider.productData['brandName'],
                           'sizeList': productProvider.productData['sizeList'],
+                          'vendorId': FirebaseAuth.instance.currentUser!.uid,
                         },
                       ).whenComplete(
                         () {
                           productProvider.clearData();
-                          EasyLoading.dismiss();
                           _formKey.currentState!.reset();
+                          EasyLoading.dismiss();
                           Navigator.push(
                             context,
                             MaterialPageRoute(

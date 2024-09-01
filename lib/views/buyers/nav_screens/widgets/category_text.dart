@@ -1,8 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/home_products.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/main_products_widget.dart';
 
-class CategoryText extends StatelessWidget {
+class CategoryText extends StatefulWidget {
   const CategoryText({Key? key}) : super(key: key);
+
+  @override
+  State<CategoryText> createState() => _CategoryTextState();
+}
+
+class _CategoryTextState extends State<CategoryText> {
+  String? _selectedCategory;
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> categoryStream =
@@ -45,7 +54,12 @@ class CategoryText extends StatelessWidget {
                           final categoryData = snapshot.data!.docs[index];
                           return ActionChip(
                             backgroundColor: Colors.yellow.shade900,
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                _selectedCategory =
+                                    categoryData['categoryName'];
+                              });
+                            },
                             label: Center(
                               child: Text(
                                 categoryData['categoryName'],
@@ -69,6 +83,9 @@ class CategoryText extends StatelessWidget {
               );
             },
           ),
+          if (_selectedCategory == null) const MainProductWidget(),
+          if (_selectedCategory != null)
+            HomeProductWidget(categoryName: _selectedCategory!),
         ],
       ),
     );

@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:multi_fashion_store/providers/cart_provider.dart';
 import 'package:multi_fashion_store/providers/product_provider.dart';
 import 'package:multi_fashion_store/vendor/views/screens/main_vendor_screen.dart';
+import 'package:multi_fashion_store/views/buyers/main_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -27,6 +29,11 @@ void main() async {
             return ProductProvider();
           },
         ),
+        ChangeNotifierProvider(
+          create: (_) {
+            return CartProvider();
+          },
+        ),
       ],
       child: const MyApp(),
     ),
@@ -46,7 +53,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Brand-Bold',
       ),
-      home: const MainVendorScreen(),
+      home: const MainScreen(),
       builder: EasyLoading.init(),
     );
   }
