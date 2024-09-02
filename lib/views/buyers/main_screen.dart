@@ -16,17 +16,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    int pageIndex = 0;
-
     List<Widget> pages = [
       const HomeScreen(),
       const CategoryScreen(),
       const StoreScreen(),
       const CartScreen(),
       const SearchScreen(),
-      const AccountScreen(),
+      AccountScreen(),
     ];
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(

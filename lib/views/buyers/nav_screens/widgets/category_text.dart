@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_fashion_store/views/buyers/nav_screens/category_screen.dart';
 import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/home_products.dart';
 import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/main_products_widget.dart';
 
@@ -52,21 +53,24 @@ class _CategoryTextState extends State<CategoryText> {
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           final categoryData = snapshot.data!.docs[index];
-                          return ActionChip(
-                            backgroundColor: Colors.yellow.shade900,
-                            onPressed: () {
-                              setState(() {
-                                _selectedCategory =
-                                    categoryData['categoryName'];
-                              });
-                            },
-                            label: Center(
-                              child: Text(
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: ActionChip(
+                              backgroundColor: Colors.yellow.shade900,
+                              onPressed: () {
+                                setState(() {
+                                  _selectedCategory =
+                                      categoryData['categoryName'];
+                                });
+                              },
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6.0, horizontal: 10.0),
+                              label: Text(
                                 categoryData['categoryName'],
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
@@ -75,7 +79,16 @@ class _CategoryTextState extends State<CategoryText> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const CategoryScreen();
+                            },
+                          ),
+                        );
+                      },
                       icon: const Icon(Icons.arrow_forward_ios),
                     )
                   ],

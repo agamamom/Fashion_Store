@@ -128,7 +128,10 @@ class _RegisterScreenState extends State<BuyerRegisterScreen> {
                       onPressed: () {
                         selectGalleryImage();
                       },
-                      icon: const Icon(CupertinoIcons.photo),
+                      icon: const Icon(
+                        CupertinoIcons.photo,
+                        color: Colors.white,
+                      ),
                     ),
                   )
                 ]),
@@ -210,12 +213,12 @@ class _RegisterScreenState extends State<BuyerRegisterScreen> {
                       color: Colors.yellow.shade900,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: _isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Center(
-                            child: Text(
+                    child: Center(
+                      child: _isLoading
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text(
                               'Register',
                               style: TextStyle(
                                   color: Colors.white,
@@ -223,7 +226,7 @@ class _RegisterScreenState extends State<BuyerRegisterScreen> {
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 4),
                             ),
-                          ),
+                    ),
                   ),
                 ),
                 Row(

@@ -168,14 +168,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedSize =
-                                  widget.productData['sizeList'][index];
-                            });
-                          },
-                          child: Text(widget.productData['sizeList'][index]),
+                        child: Container(
+                          color: selectedSize ==
+                                  widget.productData['sizeList'][index]
+                              ? Colors.yellow.shade900
+                              : null,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedSize =
+                                    widget.productData['sizeList'][index];
+                              });
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    1), // Customize the corner radius
+                              ),
+                            ),
+                            child: Text(widget.productData['sizeList'][index]),
+                          ),
                         ),
                       );
                     },
@@ -189,34 +201,42 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: () {
-            if (selectedSize == null) {
-              return showSnack(context, 'Please select a size!');
-            } else {
-              cartProvider.addProductToCart(
-                widget.productData['productName'],
-                widget.productData['productId'],
-                widget.productData['imageUrl'],
-                widget.productData['quantity'],
-                1,
-                widget.productData['productPrice'],
-                widget.productData['vendorId'],
-                selectedSize!,
-                widget.productData['scheduleDate'],
-              );
-            }
-          },
+          onTap: cartProvider.getCartItem
+                  .containsKey(widget.productData['productId'])
+              ? null
+              : () {
+                  if (selectedSize == null) {
+                    return showSnack(context, 'Please select a size!');
+                  } else {
+                    cartProvider.addProductToCart(
+                      widget.productData['productName'],
+                      widget.productData['productId'],
+                      widget.productData['imageUrl'],
+                      widget.productData['quantity'],
+                      1,
+                      widget.productData['productPrice'],
+                      widget.productData['vendorId'],
+                      selectedSize!,
+                      widget.productData['scheduleDate'],
+                    );
+                    return showSnack(context,
+                        'You Added ${widget.productData['productName']} to your cart');
+                  }
+                },
           child: Container(
             height: 50,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Colors.yellow.shade900,
+              color: cartProvider.getCartItem
+                      .containsKey(widget.productData['productId'])
+                  ? Colors.grey
+                  : Colors.yellow.shade900,
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Icon(
                     CupertinoIcons.cart,
@@ -225,15 +245,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'ADD TO CART',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        letterSpacing: 2),
-                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: cartProvider.getCartItem
+                          .containsKey(widget.productData['productId'])
+                      ? const Text(
+                          'ADD TO CART',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              letterSpacing: 2),
+                        )
+                      : const Text(
+                          'ADD TO CART',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              letterSpacing: 2),
+                        ),
                 )
               ],
             ),

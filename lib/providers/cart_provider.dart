@@ -13,7 +13,7 @@ class CartProvider with ChangeNotifier {
 
     _cartItems.forEach(
       (key, value) {
-        total += value.price + value.quantity;
+        total += value.price * value.quantity;
       },
     );
 

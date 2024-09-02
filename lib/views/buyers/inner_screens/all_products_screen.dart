@@ -2,31 +2,47 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_fashion_store/views/buyers/productDetail/product_detail_screen.dart';
 
-class MainProductWidget extends StatelessWidget {
-  const MainProductWidget({super.key});
+class AllProductsScreen extends StatelessWidget {
+  const AllProductsScreen({super.key, this.categoryData});
+
+  final dynamic categoryData;
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> productsStream =
-        FirebaseFirestore.instance.collection('products').snapshots();
-    return StreamBuilder<QuerySnapshot>(
-      stream: productsStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return const Text('Something went wrong');
-        }
+    final Stream<QuerySnapshot> _productsStream = FirebaseFirestore.instance
+        .collection('products')
+        .where(
+          'category',
+          isEqualTo: categoryData['categoryName'],
+        )
+        .snapshots();
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: Colors.yellow.shade900,
+        title: Text(
+          categoryData['categoryName'],
+          style: const TextStyle(letterSpacing: 5, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _productsStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something went wrong'),
+            );
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: LinearProgressIndicator(
-              color: Colors.yellow.shade900,
-            ),
-          );
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.yellow.shade900,
+              ),
+            );
+          }
 
-        return SizedBox(
-          height: 250,
-          child: GridView.builder(
+          return GridView.builder(
             itemCount: snapshot.data!.docs.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -87,9 +103,9 @@ class MainProductWidget extends StatelessWidget {
                 ),
               );
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -86,6 +86,7 @@ class UploadScreen extends StatelessWidget {
                           'brandName': productProvider.productData['brandName'],
                           'sizeList': productProvider.productData['sizeList'],
                           'vendorId': FirebaseAuth.instance.currentUser!.uid,
+                          'approved': false,
                         },
                       ).whenComplete(
                         () {

@@ -27,16 +27,18 @@ class _ImagesTabScreenState extends State<ImagesTabScreen>
   List<String> imageUrlList = [];
 
   Future chooseImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    try {
+      final List<XFile>? pickedFiles = await picker.pickMultiImage();
 
-    if (pickedFile == null) {
-      print('no image picked');
-    } else {
-      setState(() {
-        image.add(
-          File(pickedFile.path),
-        );
-      });
+      if (pickedFiles == null || pickedFiles.isEmpty) {
+        print('No images picked');
+      } else {
+        setState(() {
+          image.addAll(pickedFiles.map((file) => File(file.path)).toList());
+        });
+      }
+    } catch (e) {
+      print('Error picking images: $e');
     }
   }
 
@@ -67,9 +69,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen>
                   : Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(
-                            image[index - 1],
-                          ),
+                          image: FileImage(image[index - 1], scale: 2),
                         ),
                       ),
                     );
