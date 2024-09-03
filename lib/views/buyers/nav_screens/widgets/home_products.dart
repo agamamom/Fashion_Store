@@ -11,6 +11,7 @@ class HomeProductWidget extends StatelessWidget {
     final Stream<QuerySnapshot> productsStream = FirebaseFirestore.instance
         .collection('products')
         .where('category', isEqualTo: categoryName)
+        .where('approved', isEqualTo: true)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
       stream: productsStream,

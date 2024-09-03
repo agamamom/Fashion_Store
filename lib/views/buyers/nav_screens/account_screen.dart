@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_fashion_store/views/buyers/auth/login_screen.dart';
+import 'package:multi_fashion_store/views/buyers/inner_screens/edit_profile.dart';
 
 class AccountScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -153,7 +154,16 @@ class AccountScreen extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return EditProfileScreen(userData: data);
+                              },
+                            ),
+                          );
+                        },
                         child: Container(
                           height: 40,
                           width: MediaQuery.of(context).size.width - 200,

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:multi_fashion_store/providers/cart_provider.dart';
+import 'package:multi_fashion_store/views/buyers/inner_screens/edit_profile.dart';
 import 'package:multi_fashion_store/views/buyers/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -26,11 +26,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return const Text("Something went wrong");
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
+          return const Text("Document does not exist");
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -113,72 +113,92 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 );
               },
             ),
-            bottomSheet: Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: InkWell(
-                onTap: () {
-                  EasyLoading.show(status: 'Placing Order');
-                  cartProvider.getCartItem.forEach(
-                    (key, item) {
-                      final orderId = Uuid().v4();
-                      _firestore.collection('orders').doc(orderId).set(
-                        {
-                          'orderId': orderId,
-                          'vendorId': item.vendorId,
-                          'email': data['email'],
-                          'phone': data['phoneNumber'],
-                          'address': data['address'],
-                          'buyerId': data['buyerId'],
-                          'fullName': data['fullName'],
-                          'buyerPhoto': data['profileImage'],
-                          'productName': item.productName,
-                          'productPrice': item.price,
-                          'productId': item.productId,
-                          'productImage': item.imageUrl[0],
-                          'quantity': item.productQuantity,
-                          'productSize': item.productSize,
-                          'scheduleDate': item.scheduleDate,
-                          'orderDate': DateTime.now(),
-                        },
+            bottomSheet: data['address'] == ''
+                ? TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return EditProfileScreen(
+                              userData: data,
+                            );
+                          },
+                        ),
                       ).whenComplete(
                         () {
-                          setState(() {
-                            cartProvider.getCartItem.clear();
-                          });
-                          EasyLoading.dismiss();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const MainScreen();
-                              },
-                            ),
-                          );
+                          Navigator.pop(context);
                         },
                       );
                     },
-                  );
-                },
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.yellow.shade900,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'PLACE ORDER',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 6),
+                    child: const Text('Enter Billing Address'),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(13.0),
+                    child: InkWell(
+                      onTap: () {
+                        EasyLoading.show(status: 'Placing Order');
+                        cartProvider.getCartItem.forEach(
+                          (key, item) {
+                            final orderId = Uuid().v4();
+                            _firestore.collection('orders').doc(orderId).set(
+                              {
+                                'orderId': orderId,
+                                'vendorId': item.vendorId,
+                                'email': data['email'],
+                                'phone': data['phoneNumber'],
+                                'address': data['address'],
+                                'buyerId': data['buyerId'],
+                                'fullName': data['fullName'],
+                                'buyerPhoto': data['profileImage'],
+                                'productName': item.productName,
+                                'productPrice': item.price,
+                                'productId': item.productId,
+                                'productImage': item.imageUrl[0],
+                                'quantity': item.productQuantity,
+                                'productSize': item.productSize,
+                                'scheduleDate': item.scheduleDate,
+                                'orderDate': DateTime.now(),
+                              },
+                            ).whenComplete(
+                              () {
+                                setState(() {
+                                  cartProvider.getCartItem.clear();
+                                });
+                                EasyLoading.dismiss();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const MainScreen();
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.yellow.shade900,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'PLACE ORDER',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 6),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
           );
         }
 

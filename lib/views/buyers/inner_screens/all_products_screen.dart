@@ -15,6 +15,7 @@ class AllProductsScreen extends StatelessWidget {
           'category',
           isEqualTo: categoryData['categoryName'],
         )
+        .where('approved', isEqualTo: true)
         .snapshots();
     return Scaffold(
       appBar: AppBar(
