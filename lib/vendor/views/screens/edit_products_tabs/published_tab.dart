@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:multi_fashion_store/vendor/views/screens/vendorProductDetail/vendor_product_detail_screen.dart';
 
 class PublishedTab extends StatelessWidget {
   PublishedTab({super.key});
@@ -76,38 +77,52 @@ class PublishedTab extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 80,
-                          width: 80,
-                          child: Image.network(
-                            vendorProductData['imageUrl'][0],
-                          ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return VendorProductDetailScreen(
+                              productData: vendorProductData,
+                            );
+                          },
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              vendorProductData['productName'],
-                              style: const TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: Image.network(
+                              vendorProductData['imageUrl'][0],
                             ),
-                            Text(
-                              '\$' +
-                                  ' ' +
-                                  vendorProductData['productPrice']
-                                      .toStringAsFixed(2),
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.yellow.shade900),
-                            )
-                          ],
-                        )
-                      ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                vendorProductData['productName'],
+                                style: const TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '\$' +
+                                    ' ' +
+                                    vendorProductData['productPrice']
+                                        .toStringAsFixed(2),
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.yellow.shade900),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );
