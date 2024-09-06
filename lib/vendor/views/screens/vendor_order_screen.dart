@@ -5,8 +5,19 @@ class VendorOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('VendorOrderScreen Screen'),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.yellow.shade900,
+        elevation: 0,
+        title: const Text(
+          'My Orders',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 3),
+        ),
+      ),
     );
   }
 }
