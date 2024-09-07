@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_fashion_store/views/buyers/auth/login_screen.dart';
 import 'package:multi_fashion_store/views/buyers/inner_screens/edit_profile.dart';
+import 'package:multi_fashion_store/views/buyers/inner_screens/order_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -202,7 +203,16 @@ class AccountScreen extends StatelessWidget {
                         title: Text('Cart'),
                       ),
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const CustomerOrderScreen();
+                              },
+                            ),
+                          );
+                        },
                         leading: const Icon(CupertinoIcons.shopping_cart),
                         title: const Text('Order'),
                       ),
