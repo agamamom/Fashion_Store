@@ -21,7 +21,7 @@ class _MainVendorScreenState extends State<MainVendorScreen> {
       const EarningsScreen(),
       UploadScreen(),
       const EditProductScreen(),
-      const VendorOrderScreen(),
+      VendorOrderScreen(),
       VendorLogoutScreen(),
     ];
     return Scaffold(
