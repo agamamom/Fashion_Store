@@ -9,30 +9,42 @@ class UnpublishedTab extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> vendorProductStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> _vendorProductStream = FirebaseFirestore
+        .instance
         .collection('products')
         .where('vendorId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .where('approved', isEqualTo: false)
         .snapshots();
-
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: vendorProductStream,
+        stream: _vendorProductStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading");
+            return Center(
+              child: CircularProgressIndicator(color: Colors.yellow.shade900),
+            );
+          }
+
+          if (snapshot.data!.docs.isEmpty) {
+            return const Center(
+                child: Text(
+              'No Unpublish Product Yet',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ));
           }
 
           return SizedBox(
-            height: 150,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
+              itemBuilder: ((context, index) {
                 final vendorProductData = snapshot.data!.docs[index];
                 return Slidable(
                   // Specify a key if the Slidable is dismissible.
@@ -42,6 +54,8 @@ class UnpublishedTab extends StatelessWidget {
                   startActionPane: ActionPane(
                     // A motion is a widget used to control how the pane animates.
                     motion: const ScrollMotion(),
+
+                    // A pane can dismiss the Slidable.
 
                     // All actions are defined in the children parameter.
                     children: [
@@ -83,9 +97,8 @@ class UnpublishedTab extends StatelessWidget {
                         SizedBox(
                           height: 80,
                           width: 80,
-                          child: Image.network(
-                            vendorProductData['imageUrl'][0],
-                          ),
+                          child:
+                              Image.network(vendorProductData['imageUrl'][0]),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +124,7 @@ class UnpublishedTab extends StatelessWidget {
                     ),
                   ),
                 );
-              },
+              }),
             ),
           );
         },

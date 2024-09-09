@@ -19,14 +19,14 @@ class AccountScreen extends StatelessWidget {
             appBar: AppBar(
               elevation: 2,
               backgroundColor: Colors.yellow.shade900,
-              title: const Text(
+              title: Text(
                 'Profile',
                 style: TextStyle(letterSpacing: 4),
               ),
               centerTitle: true,
-              actions: const [
+              actions: [
                 Padding(
-                  padding: EdgeInsets.all(14.0),
+                  padding: const EdgeInsets.all(14.0),
                   child: Icon(Icons.star),
                 ),
               ],
@@ -51,9 +51,9 @@ class AccountScreen extends StatelessWidget {
                   height: 25,
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Login Account to access profile',
+                    'Login Account TO Access Profile',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -156,14 +156,12 @@ class AccountScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return EditProfileScreen(userData: data);
-                              },
-                            ),
-                          );
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return EditProfileScreen(
+                              userData: data,
+                            );
+                          }));
                         },
                         child: Container(
                           height: 40,
@@ -204,14 +202,10 @@ class AccountScreen extends StatelessWidget {
                       ),
                       ListTile(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const CustomerOrderScreen();
-                              },
-                            ),
-                          );
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const CustomerOrderScreen();
+                          }));
                         },
                         leading: const Icon(CupertinoIcons.shopping_cart),
                         title: const Text('Order'),
