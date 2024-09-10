@@ -39,8 +39,7 @@ class StoreScreen extends StatelessWidget {
                 SizedBox(
                   height: 500,
                   child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.docs.length,
+                      itemCount: snapshot.data!.size,
                       itemBuilder: ((context, index) {
                         final storeData = snapshot.data!.docs[index];
 
@@ -50,7 +49,9 @@ class StoreScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return const StoreDetailScreen();
+                                  return StoreDetailScreen(
+                                    storeData: storeData,
+                                  );
                                 },
                               ),
                             );
