@@ -7,12 +7,12 @@ class StoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _storesStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> storesStream = FirebaseFirestore.instance
         .collection('vendors')
         .where('approved', isEqualTo: true)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
-      stream: _storesStream,
+      stream: storesStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');

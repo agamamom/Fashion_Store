@@ -63,7 +63,7 @@ class UploadScreen extends StatelessWidget {
                   onPressed: () async {
                     EasyLoading.show(status: 'Please wait...');
                     if (_formKey.currentState!.validate()) {
-                      final productId = Uuid().v4();
+                      final productId = const Uuid().v4();
                       await firestore.collection('products').doc(productId).set(
                         {
                           'productId': productId,

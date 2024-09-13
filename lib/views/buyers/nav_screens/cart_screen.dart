@@ -67,9 +67,7 @@ class CartScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$' +
-                                      ' ' +
-                                      cartData.price.toStringAsFixed(2),
+                                  '\$' ' ' + cartData.price.toStringAsFixed(2),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -198,10 +196,7 @@ class CartScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                '\$' +
-                    cartProvider.totalPrice.toStringAsFixed(2) +
-                    ' ' +
-                    'CHECKOUT',
+                '\$${cartProvider.totalPrice.toStringAsFixed(2)} CHECKOUT',
                 style: const TextStyle(
                     color: Colors.white,
                     letterSpacing: 3,

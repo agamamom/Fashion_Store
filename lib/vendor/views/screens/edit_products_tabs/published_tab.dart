@@ -9,15 +9,14 @@ class PublishedTab extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _vendorProductStream = FirebaseFirestore
-        .instance
+    final Stream<QuerySnapshot> vendorProductStream = FirebaseFirestore.instance
         .collection('products')
         .where('vendorId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .where('approved', isEqualTo: true)
         .snapshots();
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: _vendorProductStream,
+        stream: vendorProductStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
@@ -122,8 +121,7 @@ class PublishedTab extends StatelessWidget {
                                     fontSize: 17, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                '\$' +
-                                    ' ' +
+                                '\$' ' ' +
                                     vendorProductData['productPrice']
                                         .toStringAsFixed(2),
                                 style: TextStyle(

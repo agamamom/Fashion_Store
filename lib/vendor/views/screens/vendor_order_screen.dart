@@ -14,9 +14,11 @@ class VendorOrderScreen extends StatelessWidget {
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  VendorOrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _ordersStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> ordersStream = FirebaseFirestore.instance
         .collection('orders')
         .where('vendorId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
@@ -36,7 +38,7 @@ class VendorOrderScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _ordersStream,
+        stream: ordersStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
@@ -106,8 +108,7 @@ class VendorOrderScreen extends StatelessWidget {
                                 ),
                               ),
                         trailing: Text(
-                          'Amount' +
-                              ' ' +
+                          'Amount' ' ' +
                               document['productPrice'].toStringAsFixed(2),
                           style:
                               const TextStyle(fontSize: 17, color: Colors.blue),

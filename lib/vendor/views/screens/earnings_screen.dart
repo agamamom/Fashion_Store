@@ -10,7 +10,7 @@ class EarningsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('vendors');
-    final Stream<QuerySnapshot> _ordersStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> ordersStream = FirebaseFirestore.instance
         .collection('orders')
         .where('vendorId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
@@ -39,10 +39,10 @@ class EarningsScreen extends StatelessWidget {
                     backgroundImage: NetworkImage(data['storeImage']),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Hi' + data['bussinessName'],
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -53,15 +53,15 @@ class EarningsScreen extends StatelessWidget {
               ),
             ),
             body: StreamBuilder<QuerySnapshot>(
-              stream: _ordersStream,
+              stream: ordersStream,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something went wrong');
+                  return const Text('Something went wrong');
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
+                  return const Text("Loading");
                 }
 
                 double totalOrder = 0.0;
@@ -99,7 +99,7 @@ class EarningsScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  '\$' + " " + totalOrder.toStringAsFixed(2),
+                                  '\$' " " + totalOrder.toStringAsFixed(2),
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,

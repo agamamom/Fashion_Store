@@ -67,8 +67,7 @@ class HomeProductWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            '\$' +
-                                " " +
+                            '\$' " " +
                                 productData['productPrice'].toStringAsFixed(2),
                             style: TextStyle(
                                 fontSize: 18,

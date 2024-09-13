@@ -19,14 +19,14 @@ class AccountScreen extends StatelessWidget {
             appBar: AppBar(
               elevation: 2,
               backgroundColor: Colors.yellow.shade900,
-              title: Text(
+              title: const Text(
                 'Profile',
                 style: TextStyle(letterSpacing: 4),
               ),
               centerTitle: true,
-              actions: [
+              actions: const [
                 Padding(
-                  padding: const EdgeInsets.all(14.0),
+                  padding: EdgeInsets.all(14.0),
                   child: Icon(Icons.star),
                 ),
               ],
@@ -51,7 +51,7 @@ class AccountScreen extends StatelessWidget {
                   height: 25,
                 ),
                 const Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Login Account TO Access Profile',
                     style: TextStyle(

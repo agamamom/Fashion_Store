@@ -7,7 +7,7 @@ class StoreDetailScreen extends StatelessWidget {
   final dynamic storeData;
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _productsStream =
+    final Stream<QuerySnapshot> productsStream =
         FirebaseFirestore.instance.collection('products').snapshots();
     return Scaffold(
       appBar: AppBar(
@@ -16,14 +16,14 @@ class StoreDetailScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _productsStream,
+        stream: productsStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return const Text("Loading");
           }
 
           return GridView.builder(
@@ -72,8 +72,7 @@ class StoreDetailScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '\$' +
-                              " " +
+                          '\$' " " +
                               productData['productPrice'].toStringAsFixed(2),
                           style: TextStyle(
                               fontSize: 18,

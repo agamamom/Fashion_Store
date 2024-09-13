@@ -163,7 +163,7 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
 
                       await _firestore
                           .collection('withdrawal')
-                          .doc(Uuid().v4())
+                          .doc(const Uuid().v4())
                           .set({
                         'Amount': amount,
                         'Name': name,

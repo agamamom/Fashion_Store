@@ -9,7 +9,7 @@ class AllProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _productsStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> productsStream = FirebaseFirestore.instance
         .collection('products')
         .where(
           'category',
@@ -27,7 +27,7 @@ class AllProductsScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _productsStream,
+        stream: productsStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -89,8 +89,7 @@ class AllProductsScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '\$' +
-                              " " +
+                          '\$' " " +
                               productData['productPrice'].toStringAsFixed(2),
                           style: TextStyle(
                               fontSize: 18,

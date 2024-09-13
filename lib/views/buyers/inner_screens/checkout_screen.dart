@@ -19,7 +19,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference users = FirebaseFirestore.instance.collection('buyers');
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(FirebaseAuth.instance.currentUser!.uid).get(),
@@ -91,8 +91,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '\$' +
-                                        ' ' +
+                                    '\$' ' ' +
                                         cartData.price.toStringAsFixed(2),
                                     style: TextStyle(
                                         fontSize: 20,
@@ -140,8 +139,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         EasyLoading.show(status: 'Placing Order');
                         cartProvider.getCartItem.forEach(
                           (key, item) {
-                            final orderId = Uuid().v4();
-                            _firestore.collection('orders').doc(orderId).set(
+                            final orderId = const Uuid().v4();
+                            firestore.collection('orders').doc(orderId).set(
                               {
                                 'orderId': orderId,
                                 'vendorId': item.vendorId,

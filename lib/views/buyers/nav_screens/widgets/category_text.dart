@@ -5,7 +5,7 @@ import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/home_produc
 import 'package:multi_fashion_store/views/buyers/nav_screens/widgets/main_products_widget.dart';
 
 class CategoryText extends StatefulWidget {
-  const CategoryText({Key? key}) : super(key: key);
+  const CategoryText({super.key});
 
   @override
   State<CategoryText> createState() => _CategoryTextState();

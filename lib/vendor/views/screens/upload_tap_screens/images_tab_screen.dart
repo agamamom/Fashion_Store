@@ -28,7 +28,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen>
 
   Future chooseImage() async {
     try {
-      final List<XFile>? pickedFiles = await picker.pickMultiImage();
+      final List<XFile> pickedFiles = await picker.pickMultiImage();
 
       if (pickedFiles == null || pickedFiles.isEmpty) {
         print('No images picked');

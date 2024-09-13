@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 
 class SeachInputWidget extends StatelessWidget {
   const SeachInputWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

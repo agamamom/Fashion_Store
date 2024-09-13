@@ -93,8 +93,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                '\$' +
-                    ' ' +
+                '\$' ' ' +
                     widget.productData['productPrice'].toStringAsFixed(2),
                 style: TextStyle(
                     fontSize: 22,
