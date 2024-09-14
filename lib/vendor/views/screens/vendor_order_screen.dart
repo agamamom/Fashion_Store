@@ -113,16 +113,16 @@ class VendorOrderScreen extends StatelessWidget {
                           style:
                               const TextStyle(fontSize: 17, color: Colors.blue),
                         ),
-                        subtitle: Text(
-                          formatedDate(
-                            document['orderDate'].toDate(),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
-                        ),
+                        // subtitle: Text(
+                        //   formatedDate(
+                        //     document['orderDate'].toDate(),
+                        //   ),
+                        //   style: const TextStyle(
+                        //     fontSize: 14,
+                        //     fontWeight: FontWeight.bold,
+                        //     color: Colors.blue,
+                        //   ),
+                        // ),
                       ),
                       ExpansionTile(
                         title: Text(

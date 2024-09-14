@@ -19,7 +19,11 @@ class StoreScreen extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading");
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.yellow.shade900,
+            ),
+          );
         }
 
         return Scaffold(

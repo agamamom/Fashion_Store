@@ -7,8 +7,10 @@ class StoreDetailScreen extends StatelessWidget {
   final dynamic storeData;
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> productsStream =
-        FirebaseFirestore.instance.collection('products').snapshots();
+    final Stream<QuerySnapshot> productsStream = FirebaseFirestore.instance
+        .collection('products')
+        .where('vendorId', isEqualTo: storeData['vendorId'])
+        .snapshots();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -23,7 +25,20 @@ class StoreDetailScreen extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading");
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.yellow.shade900,
+              ),
+            );
+          }
+
+          if (snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text(
+                'No Product Uploaded',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            );
           }
 
           return GridView.builder(
