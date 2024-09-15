@@ -38,53 +38,69 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _productsStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
+      body: _searchedValue == ''
+          ? const Center(
+              child: Text(
+                'Search for products',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            )
+          : StreamBuilder<QuerySnapshot>(
+              stream: _productsStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
-          }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text("Loading");
+                }
 
-          final searchData = snapshot.data!.docs.where(
-            (element) {
-              return element['productName'].toLowerCase().contains(
-                    _searchedValue.toLowerCase(),
-                  );
-            },
-          );
+                final searchData = snapshot.data!.docs.where(
+                  (element) {
+                    return element['productName'].toLowerCase().contains(
+                          _searchedValue.toLowerCase(),
+                        );
+                  },
+                );
 
-          return Column(
-            children: searchData.map(
-              (e) {
-                return Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.network(e['imageUrl'][0]),
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            e['productName'],
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                return Column(
+                  children: searchData.map(
+                    (e) {
+                      return Card(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Image.network(e['imageUrl'][0]),
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  e['productName'],
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  e['productPrice'].toStringAsFixed(2),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.yellow.shade900),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ).toList(),
                 );
               },
-            ).toList(),
-          );
-        },
-      ),
+            ),
     );
   }
 }
